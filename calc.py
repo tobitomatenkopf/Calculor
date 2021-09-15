@@ -8,6 +8,12 @@ def checkForError(string) -> bool:
     return False
 
 
+def checkForInput(string):
+    if string == '':
+        return True
+    return False
+
+
 def transformToList(string) -> list:  # 3 + 3 x 3 -> [3, +, [3, x, 3]]
     inpList = string.split(' ')
     calcList = []
@@ -56,9 +62,10 @@ def calc(calcList) -> int:
 
 
 def calcSolution(inp) -> str:
+    if checkForInput(inp):
+        return ''
     if checkForError(inp):
         return 'Error'
     calcList = transformToList(inp)
-    print(str(calc(calcList)))
     return str(calc(calcList))
 
