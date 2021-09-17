@@ -16,7 +16,7 @@ class mainWindow(QMainWindow):
         self.initMe()
 
     def initMe(self):
-        self.setGeometry(100, 100, 265, 230)
+        self.setGeometry(100, 100, 320, 230)
         self.setFixedSize(self.size())
         self.setWindowIcon(QIcon('Icons/calculator.png'))
         self.setWindowTitle('Calculator')
@@ -45,7 +45,7 @@ class mainWindow(QMainWindow):
 
         self.calcLine = QLineEdit(self)
         self.calcLine.setReadOnly(True)
-        self.calcLine.setGeometry(25, 35, 215, 30)
+        self.calcLine.setGeometry(25, 35, 270, 30)
 
         button1 = QPushButton('1', self)
         button1.clicked.connect(partial(self.printToBar, 1))
@@ -126,6 +126,16 @@ class mainWindow(QMainWindow):
         buttonDiv.clicked.connect(partial(self.printToBar, ' / '))
         buttonDiv.setGeometry(190, 180, 50, 30)
         buttonDiv.setShortcut(QKeySequence("/"))
+
+        buttonBracketL = QPushButton('(', self)
+        buttonBracketL.clicked.connect(partial(self.printToBar, ' ('))
+        buttonBracketL.setGeometry(245, 75, 50, 30)
+        buttonBracketL.setShortcut(QKeySequence("("))
+
+        buttonBracketR = QPushButton(')', self)
+        buttonBracketR.clicked.connect(partial(self.printToBar, ') '))
+        buttonBracketR.setGeometry(245, 110, 50, 30)
+        buttonBracketR.setShortcut(QKeySequence(")"))
 
     def printToBar(self, inp):
         self.calcLine.setText(str(self.calcLine.text()) + str(inp))

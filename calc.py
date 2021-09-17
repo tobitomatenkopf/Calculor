@@ -1,28 +1,54 @@
+import re
+
+
 def checkForError(string) -> bool:
-    calcList = string.split(' ')
-    previousPiece = '0'
-    for piece in calcList:
-        if (not piece.isnumeric()) and (not previousPiece.isnumeric()):
-            return True
-        previousPiece = piece
     return False
 
 
-def checkForInput(string):
+def checkForInput(string) -> bool:
     if string == '':
         return True
     return False
 
 
-def transformToList(string) -> list:  # 3 + 3 x 3 -> [3, +, [3, x, 3]]
+def transformToList(string) -> list:  # 3 + 3 x 3 -> [3, +, [3, x, 3]]  ) )
     inpList = string.split(' ')
+    cleanInpList = []
+    for element in inpList:
+        if ('(' in element) or (')' in element):
+            cleanInpList.append(element[0])
+            if len(element) > 1:
+                cleanInpList.append(element[1])
+        elif element != '':
+            cleanInpList.append(element)
+        else:
+            print(1)
+    print(cleanInpList)
     calcList = []
     i = 0
     a = 0
     passing = False
-    for piece in inpList:
+    for piece in cleanInpList:
         if passing:
             passing = False
+        elif piece == '(':
+            inBracket = []
+            bracketCounter = 0
+            for piece2 in cleanInpList[i:]:
+                if piece2 == '(':
+                    bracketCounter += 1
+                    inBracket.append('(')
+                elif piece2 == ')':
+                    bracketCounter -= 1
+                    inBracket.append(')')
+                elif bracketCounter != 0:
+                    inBracket.append(piece2)
+                else:
+                    # TODO
+                    # getting rid of the last bracket
+                    calcList.append(transformToList(inBracket))
+                    break
+
         elif piece.isnumeric():
             calcList.append(int(piece))
         elif piece == '+' or piece == '-':
@@ -30,7 +56,7 @@ def transformToList(string) -> list:  # 3 + 3 x 3 -> [3, +, [3, x, 3]]
         elif piece == 'x' or piece == '/':
             previousPiece = calcList[i - 1]
             calcList = calcList[:-1]
-            calcList.append([previousPiece, piece, int(inpList[a + 1])])
+            calcList.append([previousPiece, piece, int(cleanInpList[a + 1])])
             passing = True
             i -= 2
 
@@ -66,5 +92,7 @@ def calcSolution(inp) -> str:
         return ''
     if checkForError(inp):
         return 'Error'
+    print(1)
     calcList = transformToList(inp)
+    print(calcList)
     return str(calc(calcList))
