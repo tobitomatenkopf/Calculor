@@ -68,4 +68,3 @@ def calcSolution(inp) -> str:
         return 'Error'
     calcList = transformToList(inp)
     return str(calc(calcList))
-

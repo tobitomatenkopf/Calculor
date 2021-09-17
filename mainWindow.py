@@ -7,6 +7,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 from calc import calcSolution
+from shortsInfoWindow import ShortsInfoWindow
 
 
 class mainWindow(QMainWindow):
@@ -17,19 +18,24 @@ class mainWindow(QMainWindow):
     def initMe(self):
         self.setGeometry(100, 100, 265, 230)
         self.setFixedSize(self.size())
-        self.setWindowIcon(QIcon('calculator.png'))
+        self.setWindowIcon(QIcon('Icons/calculator.png'))
         self.setWindowTitle('Calculator')
 
         menuBar = self.menuBar()
 
-        gitLink = QAction(QIcon('github.png'), '&GitHub', self)
+        gitLink = QAction(QIcon('Icons/github.png'), '&GitHub', self)
         gitLink.triggered.connect(partial(webbrowser.open, 'https://github.com/tobitomatenkopf/Calculor'))
         gitLink.setStatusTip('Links to the Calculor GitHub Repo')
 
+        shortcutInfo = QAction(QIcon('Icons/ctrl.png'), '&Shorts', self)
+        shortcutInfo.triggered.connect(self.shortsInfoWindowOpen)
+        shortcutInfo.setStatusTip('Shortcut Info')
+
         info_ = menuBar.addMenu('&Info')
         info_.addAction(gitLink)
+        info_.addAction(shortcutInfo)
 
-        exitMe = QAction(QIcon('door.png'), '&Exit', self)
+        exitMe = QAction(QIcon('Icons/door.png'), '&Exit', self)
         exitMe.setShortcut(QKeySequence('Ctrl+E'))
         exitMe.triggered.connect(self.close)
         exitMe.setStatusTip('Exit')
@@ -133,3 +139,5 @@ class mainWindow(QMainWindow):
             solution = solution[:-2]
         self.calcLine.setText(solution)
 
+    def shortsInfoWindowOpen(self):
+        self.w2 = ShortsInfoWindow()
